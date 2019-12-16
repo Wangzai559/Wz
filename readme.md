@@ -3,4 +3,5 @@
 //未完待续
 hhdhs
 fghjk.
-dfg
+dfg\n
+this is a new line
