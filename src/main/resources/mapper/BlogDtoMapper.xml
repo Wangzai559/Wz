@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.BlogDtoMapper">
+    <select id="getAllBlogDto" resultType="BlogDto">
+        SELECT
+blogmag.mag_id,
+blog.blog_title,
+blog.blog_sort,
+blogmag.mag_name,
+blogmag.mag_date,
+blogmag.mag_content
+FROM
+blog ,
+blogmag
+WHERE
+blog.blog_id = blogmag.blog_id
+    </select>
+    <delete id="delBlogDto" parameterType="Integer">
+        delete  from blogmag where mag_id=#{magId}
+    </delete>
+    <!--查询总条数-->
+    <select id="getCount" resultType="int">
+        select count(blog_id) from blog
+    </select>
+    <!--分页查询语句-->
+    <select id="getBlogByPage" parameterType="Map" resultType="BlogDto">
+select
+blogmag.mag_id,
+blog.blog_title,
+blog.blog_sort,
+blogmag.mag_name,
+blogmag.mag_date,
+blogmag.mag_content
+FROM
+blog,
+blogmag
+WHERE
+blog.blog_id = blogmag.blog_id
+        limit #{upTo},#{pageSize}
+    </select>
+</mapper>

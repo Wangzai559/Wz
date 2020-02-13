@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.AdministratorMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Administrator">
+    <id column="adm_id" jdbcType="INTEGER" property="admId" />
+    <result column="adm_name" jdbcType="VARCHAR" property="admName" />
+    <result column="adm_pass" jdbcType="VARCHAR" property="admPass" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    adm_id, adm_name, adm_pass
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from administrator
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from administrator
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.Administrator">
+    insert into administrator (adm_id, adm_name, adm_pass
+      )
+    values (#{admId,jdbcType=INTEGER}, #{admName,jdbcType=VARCHAR}, #{admPass,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Administrator">
+    insert into administrator
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="admId != null">
+        adm_id,
+      </if>
+      <if test="admName != null">
+        adm_name,
+      </if>
+      <if test="admPass != null">
+        adm_pass,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="admId != null">
+        #{admId,jdbcType=INTEGER},
+      </if>
+      <if test="admName != null">
+        #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="admPass != null">
+        #{admPass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Administrator">
+    update administrator
+    <set>
+      <if test="admName != null">
+        adm_name = #{admName,jdbcType=VARCHAR},
+      </if>
+      <if test="admPass != null">
+        adm_pass = #{admPass,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Administrator">
+    update administrator
+    set adm_name = #{admName,jdbcType=VARCHAR},
+      adm_pass = #{admPass,jdbcType=VARCHAR}
+    where adm_id = #{admId,jdbcType=INTEGER}
+  </update>
+
+  <select id="getAdminByNameAndPass" parameterType="User" resultType="int">
+    select * from administrator where adm_name =#{admName} and adm_pass=#{admPass}
+  </select>
+</mapper>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.ReservationMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Reservation">
+    <id column="res_id" jdbcType="INTEGER" property="resId" />
+    <result column="att_name" jdbcType="VARCHAR" property="attName" />
+    <result column="att_id" jdbcType="INTEGER" property="attId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="res_price" jdbcType="VARCHAR" property="resPrice" />
+    <result column="res_start_date" jdbcType="VARCHAR" property="resStartDate" />
+    <result column="res_end_date" jdbcType="VARCHAR" property="resEndDate" />
+    <result column="res_start_week" jdbcType="VARCHAR" property="resStartWeek" />
+    <result column="res_end_week" jdbcType="VARCHAR" property="resEndWeek" />
+    <result column="res_left_seats" jdbcType="INTEGER" property="resLeftSeats" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    res_id, att_name, att_id, user_id, res_price, res_start_date, res_end_date, res_start_week, 
+    res_end_week, res_left_seats
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from reservation
+    where res_id = #{resId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from reservation
+    where res_id = #{resId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.Reservation">
+    insert into reservation (res_id, att_name, att_id, 
+      user_id, res_price, res_start_date, 
+      res_end_date, res_start_week, res_end_week, 
+      res_left_seats)
+    values (#{resId,jdbcType=INTEGER}, #{attName,jdbcType=VARCHAR}, #{attId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{resPrice,jdbcType=VARCHAR}, #{resStartDate,jdbcType=VARCHAR}, 
+      #{resEndDate,jdbcType=VARCHAR}, #{resStartWeek,jdbcType=VARCHAR}, #{resEndWeek,jdbcType=VARCHAR}, 
+      #{resLeftSeats,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Reservation">
+    insert into reservation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resId != null">
+        res_id,
+      </if>
+      <if test="attName != null">
+        att_name,
+      </if>
+      <if test="attId != null">
+        att_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="resPrice != null">
+        res_price,
+      </if>
+      <if test="resStartDate != null">
+        res_start_date,
+      </if>
+      <if test="resEndDate != null">
+        res_end_date,
+      </if>
+      <if test="resStartWeek != null">
+        res_start_week,
+      </if>
+      <if test="resEndWeek != null">
+        res_end_week,
+      </if>
+      <if test="resLeftSeats != null">
+        res_left_seats,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resId != null">
+        #{resId,jdbcType=INTEGER},
+      </if>
+      <if test="attName != null">
+        #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attId != null">
+        #{attId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="resPrice != null">
+        #{resPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="resStartDate != null">
+        #{resStartDate,jdbcType=VARCHAR},
+      </if>
+      <if test="resEndDate != null">
+        #{resEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="resStartWeek != null">
+        #{resStartWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="resEndWeek != null">
+        #{resEndWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="resLeftSeats != null">
+        #{resLeftSeats,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Reservation">
+    update reservation
+    <set>
+      <if test="attName != null">
+        att_name = #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attId != null">
+        att_id = #{attId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="resPrice != null">
+        res_price = #{resPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="resStartDate != null">
+        res_start_date = #{resStartDate,jdbcType=VARCHAR},
+      </if>
+      <if test="resEndDate != null">
+        res_end_date = #{resEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="resStartWeek != null">
+        res_start_week = #{resStartWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="resEndWeek != null">
+        res_end_week = #{resEndWeek,jdbcType=VARCHAR},
+      </if>
+      <if test="resLeftSeats != null">
+        res_left_seats = #{resLeftSeats,jdbcType=INTEGER},
+      </if>
+    </set>
+    where res_id = #{resId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Reservation">
+    update reservation
+    set att_name = #{attName,jdbcType=VARCHAR},
+      att_id = #{attId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      res_price = #{resPrice,jdbcType=VARCHAR},
+      res_start_date = #{resStartDate,jdbcType=VARCHAR},
+      res_end_date = #{resEndDate,jdbcType=VARCHAR},
+      res_start_week = #{resStartWeek,jdbcType=VARCHAR},
+      res_end_week = #{resEndWeek,jdbcType=VARCHAR},
+      res_left_seats = #{resLeftSeats,jdbcType=INTEGER}
+    where res_id = #{resId,jdbcType=INTEGER}
+  </update>
+  <select id="getAllReservation" resultType="Reservation">
+    select * from reservation
+  </select>
+
+  <select id="selectReservationByCondition" resultType="Reservation" parameterType="Reservation">
+    select  <include refid="Base_Column_List" /> from reservation
+    <where>
+      <if test="attId!=null and attId!=''">
+        and  att_id like concat(concat('%',#{attId}),'%')
+      </if>
+      <if test="attName!=null and attName!=''">
+        and att_name like concat(concat('%',#{attName}),'%')
+      </if>
+    </where>
+  </select>
+</mapper>

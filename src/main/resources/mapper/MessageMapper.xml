@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.MessageMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Message">
+    <id column="mag_id" jdbcType="INTEGER" property="magId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mag_score" jdbcType="DECIMAL" property="magScore" />
+    <result column="mag_content" jdbcType="VARCHAR" property="magContent" />
+    <result column="att_id" jdbcType="INTEGER" property="attId" />
+    <result column="mag_name" jdbcType="VARCHAR" property="magName" />
+    <result column="mag_email" jdbcType="VARCHAR" property="magEmail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mag_id, user_id, mag_score, mag_content, att_id, mag_name, mag_email,mag_date,mag_nationality
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </delete>
+
+  <!--分页查询所有数据-->
+  <select id="selectAllMessageByPage" parameterType="Map" resultType="Message">
+    select *
+    from message
+    order by mag_id desc
+    limit #{upTo},#{pageSize}
+  </select>
+
+  <!--查询总条数-->
+  <select id="selectAllCount" resultType="int">
+    select count(mag_id) from message
+  </select>
+
+  <!--查询所有的评论-->
+  <select id="selectAllMessage" resultType="Message">
+    select <include refid="Base_Column_List" />
+    from message
+
+  </select>
+
+  <!--将评论插入到数据库评论表中-->
+
+  <insert id="insert" parameterType="org.lanqiao.bean.Message">
+    insert into message (mag_id, user_id, mag_score, 
+      mag_content, att_id, mag_name, 
+      mag_email,mag_date,mag_nationality)
+    values (#{magId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{magScore,jdbcType=DECIMAL},
+      #{magContent,jdbcType=VARCHAR}, #{attId,jdbcType=INTEGER}, #{magName,jdbcType=VARCHAR}, 
+      #{magEmail,jdbcType=VARCHAR},CURDATE(),#{magNationality,jdbcType=VARCHAR})
+  </insert>
+
+
+
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="magId != null">
+        mag_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="magScore != null">
+        mag_score,
+      </if>
+      <if test="magContent != null">
+        mag_content,
+      </if>
+      <if test="attId != null">
+        att_id,
+      </if>
+      <if test="magName != null">
+        mag_name,
+      </if>
+      <if test="magEmail != null">
+        mag_email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="magId != null">
+        #{magId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="magScore != null">
+        #{magScore,jdbcType=DECIMAL},
+      </if>
+      <if test="magContent != null">
+        #{magContent,jdbcType=VARCHAR},
+      </if>
+      <if test="attId != null">
+        #{attId,jdbcType=INTEGER},
+      </if>
+      <if test="magName != null">
+        #{magName,jdbcType=VARCHAR},
+      </if>
+      <if test="magEmail != null">
+        #{magEmail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Message">
+    update message
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="magScore != null">
+        mag_score = #{magScore,jdbcType=DECIMAL},
+      </if>
+      <if test="magContent != null">
+        mag_content = #{magContent,jdbcType=VARCHAR},
+      </if>
+      <if test="attId != null">
+        att_id = #{attId,jdbcType=INTEGER},
+      </if>
+      <if test="magName != null">
+        mag_name = #{magName,jdbcType=VARCHAR},
+      </if>
+      <if test="magEmail != null">
+        mag_email = #{magEmail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Message">
+    update message
+    set user_id = #{userId,jdbcType=INTEGER},
+      mag_score = #{magScore,jdbcType=DECIMAL},
+      mag_content = #{magContent,jdbcType=VARCHAR},
+      att_id = #{attId,jdbcType=INTEGER},
+      mag_name = #{magName,jdbcType=VARCHAR},
+      mag_email = #{magEmail,jdbcType=VARCHAR}
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </update>
+</mapper>

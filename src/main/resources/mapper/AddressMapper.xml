@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.AddressMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Address">
+    <id column="add_id" jdbcType="INTEGER" property="addId" />
+    <result column="add_name" jdbcType="VARCHAR" property="addName" />
+    <result column="add_city" jdbcType="VARCHAR" property="addCity" />
+    <result column="add_province" jdbcType="VARCHAR" property="addProvince" />
+    <result column="add_postcode" jdbcType="VARCHAR" property="addPostcode" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    add_id, add_name, add_city, add_province, add_postcode, user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from address
+    where add_id = #{addId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from address
+    where add_id = #{addId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.Address">
+    insert into address (add_id, add_name, add_city, 
+      add_province, add_postcode, user_id
+      )
+    values (#{addId,jdbcType=INTEGER}, #{addName,jdbcType=VARCHAR}, #{addCity,jdbcType=VARCHAR}, 
+      #{addProvince,jdbcType=VARCHAR}, #{addPostcode,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Address">
+    insert into address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="addId != null">
+        add_id,
+      </if>
+      <if test="addName != null">
+        add_name,
+      </if>
+      <if test="addCity != null">
+        add_city,
+      </if>
+      <if test="addProvince != null">
+        add_province,
+      </if>
+      <if test="addPostcode != null">
+        add_postcode,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="addId != null">
+        #{addId,jdbcType=INTEGER},
+      </if>
+      <if test="addName != null">
+        #{addName,jdbcType=VARCHAR},
+      </if>
+      <if test="addCity != null">
+        #{addCity,jdbcType=VARCHAR},
+      </if>
+      <if test="addProvince != null">
+        #{addProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="addPostcode != null">
+        #{addPostcode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Address">
+    update address
+    <set>
+      <if test="addName != null">
+        add_name = #{addName,jdbcType=VARCHAR},
+      </if>
+      <if test="addCity != null">
+        add_city = #{addCity,jdbcType=VARCHAR},
+      </if>
+      <if test="addProvince != null">
+        add_province = #{addProvince,jdbcType=VARCHAR},
+      </if>
+      <if test="addPostcode != null">
+        add_postcode = #{addPostcode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where add_id = #{addId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Address">
+    update address
+    set add_name = #{addName,jdbcType=VARCHAR},
+      add_city = #{addCity,jdbcType=VARCHAR},
+      add_province = #{addProvince,jdbcType=VARCHAR},
+      add_postcode = #{addPostcode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER}
+    where add_id = #{addId,jdbcType=INTEGER}
+  </update>
+  <select id="getAllAddress" resultType="Address">
+    select * from address
+  </select>
+</mapper>

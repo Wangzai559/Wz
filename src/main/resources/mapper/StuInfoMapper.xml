@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.StuInfoMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.StuInfo">
+    <id column="stu_id" jdbcType="INTEGER" property="stuId" />
+    <result column="stu_name" jdbcType="VARCHAR" property="stuName" />
+    <result column="stu_sex" jdbcType="VARCHAR" property="stuSex" />
+    <result column="stu_birth" jdbcType="DATE" property="stuBirth" />
+    <result column="politics_status" jdbcType="VARCHAR" property="politicsStatus" />
+    <result column="birth_place" jdbcType="VARCHAR" property="birthPlace" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stu_id, stu_name, stu_sex, stu_birth, politics_status, birth_place
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from judged_stu_info
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from judged_stu_info
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.StuInfo">
+    insert into judged_stu_info (stu_id, stu_name, stu_sex, 
+      stu_birth, politics_status, birth_place
+      )
+    values (#{stuId,jdbcType=INTEGER}, #{stuName,jdbcType=VARCHAR}, #{stuSex,jdbcType=VARCHAR}, 
+      #{stuBirth,jdbcType=DATE}, #{politicsStatus,jdbcType=VARCHAR}, #{birthPlace,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.StuInfo">
+    insert into judged_stu_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stuId != null">
+        stu_id,
+      </if>
+      <if test="stuName != null">
+        stu_name,
+      </if>
+      <if test="stuSex != null">
+        stu_sex,
+      </if>
+      <if test="stuBirth != null">
+        stu_birth,
+      </if>
+      <if test="politicsStatus != null">
+        politics_status,
+      </if>
+      <if test="birthPlace != null">
+        birth_place,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stuId != null">
+        #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="stuName != null">
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSex != null">
+        #{stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stuBirth != null">
+        #{stuBirth,jdbcType=DATE},
+      </if>
+      <if test="politicsStatus != null">
+        #{politicsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="birthPlace != null">
+        #{birthPlace,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.StuInfo">
+    update judged_stu_info
+    <set>
+      <if test="stuName != null">
+        stu_name = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuSex != null">
+        stu_sex = #{stuSex,jdbcType=VARCHAR},
+      </if>
+      <if test="stuBirth != null">
+        stu_birth = #{stuBirth,jdbcType=DATE},
+      </if>
+      <if test="politicsStatus != null">
+        politics_status = #{politicsStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="birthPlace != null">
+        birth_place = #{birthPlace,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.StuInfo">
+    update judged_stu_info
+    set stu_name = #{stuName,jdbcType=VARCHAR},
+      stu_sex = #{stuSex,jdbcType=VARCHAR},
+      stu_birth = #{stuBirth,jdbcType=DATE},
+      politics_status = #{politicsStatus,jdbcType=VARCHAR},
+      birth_place = #{birthPlace,jdbcType=VARCHAR}
+    where stu_id = #{stuId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAll"  resultType="StuInfo">
+    select
+    *
+    from judged_stu_info
+  </select>
+
+</mapper>

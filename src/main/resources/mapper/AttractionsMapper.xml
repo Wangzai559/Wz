@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.AttractionsMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Attractions">
+    <id column="att_id" jdbcType="INTEGER" property="attId" />
+    <result column="att_name" jdbcType="VARCHAR" property="attName" />
+    <result column="att_img" jdbcType="VARCHAR" property="attImg" />
+    <result column="att_region" jdbcType="VARCHAR" property="attRegion" />
+    <result column="att_desc" jdbcType="VARCHAR" property="attDesc" />
+    <result column="att_price" jdbcType="INTEGER" property="attPrice" />
+    <result column="att_star" jdbcType="DECIMAL" property="attStar" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    att_id, att_name, att_img, att_region, att_desc, att_price, att_star
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from attractions
+    where att_id = #{attId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from attractions
+    where att_id = #{attId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.Attractions">
+    insert into attractions (att_id, att_name, att_img, 
+      att_region, att_desc, att_price, 
+      att_star)
+    values (#{attId,jdbcType=INTEGER}, #{attName,jdbcType=VARCHAR}, #{attImg,jdbcType=VARCHAR}, 
+      #{attRegion,jdbcType=VARCHAR}, #{attDesc,jdbcType=VARCHAR}, #{attPrice,jdbcType=INTEGER}, 
+      #{attStar,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Attractions">
+    insert into attractions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="attId != null">
+        att_id,
+      </if>
+      <if test="attName != null">
+        att_name,
+      </if>
+      <if test="attImg != null">
+        att_img,
+      </if>
+      <if test="attRegion != null">
+        att_region,
+      </if>
+      <if test="attDesc != null">
+        att_desc,
+      </if>
+      <if test="attPrice != null">
+        att_price,
+      </if>
+      <if test="attStar != null">
+        att_star,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="attId != null">
+        #{attId,jdbcType=INTEGER},
+      </if>
+      <if test="attName != null">
+        #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attImg != null">
+        #{attImg,jdbcType=VARCHAR},
+      </if>
+      <if test="attRegion != null">
+        #{attRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="attDesc != null">
+        #{attDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="attPrice != null">
+        #{attPrice,jdbcType=INTEGER},
+      </if>
+      <if test="attStar != null">
+        #{attStar,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Attractions">
+    update attractions
+    <set>
+      <if test="attName != null">
+        att_name = #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attImg != null">
+        att_img = #{attImg,jdbcType=VARCHAR},
+      </if>
+      <if test="attRegion != null">
+        att_region = #{attRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="attDesc != null">
+        att_desc = #{attDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="attPrice != null">
+        att_price = #{attPrice,jdbcType=INTEGER},
+      </if>
+      <if test="attStar != null">
+        att_star = #{attStar,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where att_id = #{attId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Attractions">
+    update attractions
+    set att_name = #{attName,jdbcType=VARCHAR},
+      att_img = #{attImg,jdbcType=VARCHAR},
+      att_region = #{attRegion,jdbcType=VARCHAR},
+      att_desc = #{attDesc,jdbcType=VARCHAR},
+      att_price = #{attPrice,jdbcType=INTEGER},
+      att_star = #{attStar,jdbcType=DECIMAL}
+    where att_id = #{attId,jdbcType=INTEGER}
+  </update>
+  <select id="getIndex" resultType="Attractions">
+    select *
+    from attractions
+  </select>
+   <!--关键字模糊查询-->
+  <select id="serAttName" parameterType="String" resultType="Attractions">
+    select *
+    from attractions
+    where att_name like concat(concat('%',#{attName}),'%')
+  </select>
+  <!--查询头部信息-->
+  <select id="getHeadPic" resultType="Attractions">
+    select *
+    from attractions limit 0,4
+  </select>
+
+  <!--潘旺-->
+  <select id="getAllAttractions" resultType="Attractions">
+    select *
+    from attractions
+  </select>
+
+  <select id="getAttCount" resultType="int">
+  select count(att_id) from attractions
+  </select>
+
+  <!--查询总条数-->
+  <select id="getCount" resultType="int">
+  select count(att_id) from attractions
+  </select>
+  <!--分页查询语句-->
+  <select id="getAllByPage" parameterType="Map" resultType="Attractions">
+  select * from attractions limit #{upTo},#{pageSize}
+  </select>
+
+  <select id="getStarByPage" parameterType="Map" resultType="Attractions">
+  select att_name,att_star from attractions order by att_star desc limit #{upTo},#{pageSize}
+  </select>
+
+  <select id="getPriceByPage" parameterType="Map" resultType="Attractions">
+  select att_name,att_price from attractions order by att_price desc limit #{upTo},#{pageSize}
+  </select>
+</mapper>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.BlogMagMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.BlogMag">
+    <id column="mag_id" jdbcType="INTEGER" property="magId" />
+    <result column="mag_name" jdbcType="VARCHAR" property="magName" />
+    <result column="mag_date" jdbcType="DATE" property="magDate" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="mag_content" jdbcType="VARCHAR" property="magContent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mag_id, mag_name, mag_date, user_email, user_id, mag_content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blogmag
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blogmag
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.BlogMag">
+    insert into blogmag ( mag_name, mag_date,
+      user_email, user_id, mag_content,blog_id
+      )
+    values ( #{magName,jdbcType=VARCHAR}, CURDATE(),
+      #{userEmail,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{magContent,jdbcType=VARCHAR},#{blogId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.BlogMag">
+    insert into blogmag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="magId != null">
+        mag_id,
+      </if>
+      <if test="magName != null">
+        mag_name,
+      </if>
+      <if test="magDate != null">
+        mag_date,
+      </if>
+      <if test="userEmail != null">
+        user_email,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="magContent != null">
+        mag_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="magId != null">
+        #{magId,jdbcType=INTEGER},
+      </if>
+      <if test="magName != null">
+        #{magName,jdbcType=VARCHAR},
+      </if>
+      <if test="magDate != null">
+        #{magDate,jdbcType=DATE},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="magContent != null">
+        #{magContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.BlogMag">
+    update blogmag
+    <set>
+      <if test="magName != null">
+        mag_name = #{magName,jdbcType=VARCHAR},
+      </if>
+      <if test="magDate != null">
+        mag_date = #{magDate,jdbcType=DATE},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="magContent != null">
+        mag_content = #{magContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.BlogMag">
+    update blogmag
+    set mag_name = #{magName,jdbcType=VARCHAR},
+      mag_date = #{magDate,jdbcType=DATE},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      mag_content = #{magContent,jdbcType=VARCHAR}
+    where mag_id = #{magId,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="getBlogMag" resultType="BlogMag" parameterType="int">
+    select * from blogMag where blog_id=#{blogId}
+
+  </select>
+
+
+  <select id="getBlogMag1" resultMap="classMap">
+        select * from blog b,blogMag m
+        where b.blog_id=m.blog_id
+         and b.blog_id=#{blogId}
+    </select>
+  <!--一对多映射关系-->
+  <resultMap id="classMap" type="Blog">
+    <id property="blogId" column="blog_id"/>
+    <result property="blogTitle" column="blog_title"/>
+    <result property="blogSort" column="blog_Sort"/>
+    <result property="blogDate" column="blog_date"/>
+    <result property="blogContents" column="blog_contents"/>
+    <result property="blogImg" column="blog_img"/>
+    <result property="blogAuther" column="blog_auther"/>
+    <result property="blogSumMag" column="blog_sum_mag"/>
+
+
+    <collection property="blogMagList" ofType="BlogMag">
+      <id property="magId" column="mag_id"/>
+      <result property="magName" column="mag_name"/>
+      <result property="magDate" column="mag_date"/>
+      <result property="userId" column="user_id"/>
+      <result property="userEmail" column="user_email"/>
+      <result property="magContent" column="mag_content"/>
+      <result property="blogId" column="blog_id"/>
+    </collection>
+  </resultMap>
+</mapper>

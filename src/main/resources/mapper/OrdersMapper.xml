@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.OrdersMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Orders">
+    <id column="ord_id" jdbcType="INTEGER" property="ordId" />
+    <result column="att_name" jdbcType="VARCHAR" property="attName" />
+    <result column="att_id" jdbcType="INTEGER" property="attId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="ord_price" jdbcType="INTEGER" property="ordPrice" />
+    <result column="ord_date" jdbcType="DATE" property="ordDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ord_id, att_name, att_id, user_id, ord_price, ord_date,ord_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from orders
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </select>
+
+
+  <!--分页查询所有数据-->
+  <select id="selectAllOrderByPage" parameterType="Map" resultType="Orders">
+    select *
+    from orders
+    order by ord_id desc
+    limit #{upTo},#{pageSize}
+  </select>
+
+  <!--查询总条数-->
+  <select id="selectAllCount" resultType="int">
+    select count(ord_id) from orders
+  </select>
+
+    <!--根据ID删除信息-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from orders
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </delete>
+
+  <!--分页查询语句-->
+  <select id="getOrderByPage" parameterType="Map" resultType="Orders">
+  select * from orders limit #{upTo},#{pageSize}
+  </select>
+
+
+  <!--查询订单量-->
+  <select id="getCountOrderId" resultType="int">
+  select count(ord_id) from orders
+  </select>
+  <!--查询总交易额-->
+  <select id="getSumOrderPrice" resultType="int">
+  select sum(ord_price) from orders
+  </select>
+
+
+  <insert id="insert" parameterType="org.lanqiao.bean.Orders">
+    insert into orders (ord_id, att_name, att_id, 
+      user_id, ord_price, ord_date
+      )
+    values (#{ordId,jdbcType=INTEGER}, #{attName,jdbcType=VARCHAR}, #{attId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{ordPrice,jdbcType=INTEGER}, #{ordDate,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Orders">
+    insert into orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ordId != null">
+        ord_id,
+      </if>
+      <if test="attName != null">
+        att_name,
+      </if>
+      <if test="attId != null">
+        att_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="ordPrice != null">
+        ord_price,
+      </if>
+      <if test="ordDate != null">
+        ord_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ordId != null">
+        #{ordId,jdbcType=INTEGER},
+      </if>
+      <if test="attName != null">
+        #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attId != null">
+        #{attId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ordPrice != null">
+        #{ordPrice,jdbcType=INTEGER},
+      </if>
+      <if test="ordDate != null">
+        #{ordDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Orders">
+    update orders
+    <set>
+      <if test="attName != null">
+        att_name = #{attName,jdbcType=VARCHAR},
+      </if>
+      <if test="attId != null">
+        att_id = #{attId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="ordPrice != null">
+        ord_price = #{ordPrice,jdbcType=INTEGER},
+      </if>
+      <if test="ordDate != null">
+        ord_date = #{ordDate,jdbcType=DATE},
+      </if>
+    </set>
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Orders">
+    update orders
+    set att_name = #{attName,jdbcType=VARCHAR},
+      att_id = #{attId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      ord_price = #{ordPrice,jdbcType=INTEGER},
+      ord_date = #{ordDate,jdbcType=DATE}
+    where ord_id = #{ordId,jdbcType=INTEGER}
+  </update>
+</mapper>

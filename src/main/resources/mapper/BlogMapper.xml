@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.BlogMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Blog">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="blog_title" jdbcType="VARCHAR" property="blogTitle" />
+    <result column="blog_sort" jdbcType="VARCHAR" property="blogSort" />
+    <result column="blog_date" jdbcType="TIMESTAMP" property="blogDate" />
+    <result column="blog_contents" jdbcType="VARCHAR" property="blogContents" />
+    <result column="blog_img" jdbcType="VARCHAR" property="blogImg" />
+    <result column="blog_auther" jdbcType="VARCHAR" property="blogAuther" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    blog_id, blog_title, blog_sort, blog_date, blog_contents, blog_img, blog_auther,blog_sum_mag,blog_auther_info,blog_auther_photo
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.Blog">
+    insert into blog ( blog_title, blog_sort,blog_date,
+      blog_contents, blog_img, blog_auther_info,blog_auther_photo,
+      blog_auther)
+    values ( #{blogTitle,jdbcType=VARCHAR}, #{blogSort,jdbcType=VARCHAR},
+      CURDATE(), #{blogContents,jdbcType=VARCHAR}, #{blogImg,jdbcType=VARCHAR},
+      #{blogAutherInfo,jdbcType=VARCHAR}, #{blogAutherPhoto,jdbcType=VARCHAR},#{blogAuther,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Blog">
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <!--<if test="blogId != null">-->
+        <!--blog_id,-->
+      <!--</if>-->
+      <if test="blogTitle != null">
+        blog_title,
+      </if>
+      <if test="blogSort != null">
+        blog_sort,
+      </if>
+      <if test="blogDate != null">
+        blog_date,
+      </if>
+      <if test="blogContents != null">
+        blog_contents,
+      </if>
+      <if test="blogImg != null">
+        blog_img,
+      </if>
+      <if test="blogAuther != null">
+        blog_auther,
+      </if>
+      <if test="blogAutherInfo != null">
+        blog_autherInfo,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="blogTitle != null">
+        #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogSort != null">
+        #{blogSort,jdbcType=VARCHAR},
+      </if>
+      <if test="blogDate != null">
+        #{blogDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogContents != null">
+        #{blogContents,jdbcType=VARCHAR},
+      </if>
+      <if test="blogImg != null">
+        #{blogImg,jdbcType=VARCHAR},
+      </if>
+      <if test="blogAuther != null">
+        #{blogAuther,jdbcType=VARCHAR},
+      </if>
+      <if test="blogAutherInfo != null">
+        #{blogAutherInfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Blog">
+    update blog
+    <set>
+      <if test="blogTitle != null">
+        blog_title = #{blogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="blogSort != null">
+        blog_sort = #{blogSort,jdbcType=VARCHAR},
+      </if>
+      <if test="blogDate != null">
+        blog_date = #{blogDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blogContents != null">
+        blog_contents = #{blogContents,jdbcType=VARCHAR},
+      </if>
+      <if test="blogImg != null">
+        blog_img = #{blogImg,jdbcType=VARCHAR},
+      </if>
+      <if test="blogAuther != null">
+        blog_auther = #{blogAuther,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Blog">
+    update blog
+    set blog_title = #{blogTitle,jdbcType=VARCHAR},
+      blog_sort = #{blogSort,jdbcType=VARCHAR},
+      blog_date = #{blogDate,jdbcType=TIMESTAMP},
+      blog_contents = #{blogContents,jdbcType=VARCHAR},
+      blog_img = #{blogImg,jdbcType=VARCHAR},
+      blog_auther = #{blogAuther,jdbcType=VARCHAR}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+
+
+
+  <!--根据分类查找博客信息-->
+  <select id="getAllBlogBySort" resultType="Blog" parameterType="String">
+    select * from blog where blog_sort=#{blogSort}
+  </select>
+  <!--根据评论数显示博客信息-->
+  <select id="getAllBlogByMag" resultType="Blog" >
+    select * from blog order by blog_sum_mag DESC LIMIT 0,4
+  </select>
+
+
+
+  <!--根据时间显示博客信息-->
+<select id="getAllBlogByDate" resultType="Blog" >
+   select * from blog order by blog_date DESC LIMIT 0,4
+</select>
+
+  <!--根据主键显示信息-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </select>
+
+  <!--查询总条数-->
+<select id="getBlogCount" resultType="int">
+  select count(*) from blog
+</select>
+
+  <!--查询所有博客信息-->
+  <select id="getAllBlog" resultType="Blog" parameterType="Map">
+    select blog_id, blog_title, blog_sort, blog_date,  blog_img, blog_auther,blog_sum_mag, SUBSTR(blog_contents FROM 1 FOR 100) as blog_contents,blog_auther_photo
+    from blog
+     limit #{upTo},#{pageSize}
+  </select>
+</mapper>

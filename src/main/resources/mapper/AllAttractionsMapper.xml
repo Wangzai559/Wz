@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.AllAttractionsMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.AllAttractions">
+    <id column="all_id" jdbcType="INTEGER" property="allId" />
+    <result column="all_name" jdbcType="VARCHAR" property="allName" />
+    <result column="all_img" jdbcType="VARCHAR" property="allImg" />
+    <result column="all_region" jdbcType="VARCHAR" property="allRegion" />
+    <result column="all_site" jdbcType="VARCHAR" property="allSite" />
+    <result column="all_desc" jdbcType="VARCHAR" property="allDesc" />
+    <result column="all_price" jdbcType="INTEGER" property="allPrice" />
+    <result column="all_star" jdbcType="DECIMAL" property="allStar" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    all_id, all_name, all_img, all_region,all_site,all_desc, all_price, all_star
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from allattractions
+    where all_id = #{allId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from allattractions
+    where all_id = #{allId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.AllAttractions">
+    insert into allattractions (all_id, all_name, all_img, 
+      all_region, all_desc, all_price, 
+      all_star)
+    values (#{allId,jdbcType=INTEGER}, #{allName,jdbcType=VARCHAR}, #{allImg,jdbcType=VARCHAR}, 
+      #{allRegion,jdbcType=VARCHAR}, #{allDesc,jdbcType=VARCHAR}, #{allPrice,jdbcType=INTEGER}, 
+      #{allStar,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.AllAttractions">
+    insert into allattractions
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="allId != null">
+        all_id,
+      </if>
+      <if test="allName != null">
+        all_name,
+      </if>
+      <if test="allImg != null">
+        all_img,
+      </if>
+      <if test="allRegion != null">
+        all_region,
+      </if>
+      <if test="allDesc != null">
+        all_desc,
+      </if>
+      <if test="allPrice != null">
+        all_price,
+      </if>
+      <if test="allStar != null">
+        all_star,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="allId != null">
+        #{allId,jdbcType=INTEGER},
+      </if>
+      <if test="allName != null">
+        #{allName,jdbcType=VARCHAR},
+      </if>
+      <if test="allImg != null">
+        #{allImg,jdbcType=VARCHAR},
+      </if>
+      <if test="allRegion != null">
+        #{allRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="allDesc != null">
+        #{allDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allPrice != null">
+        #{allPrice,jdbcType=INTEGER},
+      </if>
+      <if test="allStar != null">
+        #{allStar,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.AllAttractions">
+    update allattractions
+    <set>
+      <if test="allName != null">
+        all_name = #{allName,jdbcType=VARCHAR},
+      </if>
+      <if test="allImg != null">
+        all_img = #{allImg,jdbcType=VARCHAR},
+      </if>
+      <if test="allRegion != null">
+        all_region = #{allRegion,jdbcType=VARCHAR},
+      </if>
+      <if test="allDesc != null">
+        all_desc = #{allDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allPrice != null">
+        all_price = #{allPrice,jdbcType=INTEGER},
+      </if>
+      <if test="allStar != null">
+        all_star = #{allStar,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where all_id = #{allId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.AllAttractions">
+    update allattractions
+    set all_name = #{allName,jdbcType=VARCHAR},
+      all_img = #{allImg,jdbcType=VARCHAR},
+      all_region = #{allRegion,jdbcType=VARCHAR},
+      all_desc = #{allDesc,jdbcType=VARCHAR},
+      all_price = #{allPrice,jdbcType=INTEGER},
+      all_star = #{allStar,jdbcType=DECIMAL}
+    where all_id = #{allId,jdbcType=INTEGER}
+  </update>
+  <!--关键字模糊查询-->
+  <select id="serAttName" parameterType="String" resultType="AllAttractions">
+    select *
+    from allattractions
+    where all_region like concat(concat('%',#{allRegion}),'%')
+    limit 0,5
+  </select>
+  <!--分页展示-->
+  <select id="getPage" parameterType="Map" resultType="AllAttractions">
+        select *
+        from allattractions
+        where all_region like concat(concat('%',#{serName}),'%')
+        limit #{start},#{lines}
+    </select>
+  <!--获取总条数-->
+  <select id="getPageCount" resultType="int">
+    select count(*)
+    from allattractions
+  </select>
+</mapper>

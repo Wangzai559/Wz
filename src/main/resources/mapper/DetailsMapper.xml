@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.DetailsMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Details">
+    <id column="det_id" jdbcType="INTEGER" property="detId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="det_name" jdbcType="VARCHAR" property="detName" />
+    <result column="det_type" jdbcType="VARCHAR" property="detType" />
+    <result column="det_sex" jdbcType="VARCHAR" property="detSex" />
+    <result column="det_data" jdbcType="VARCHAR" property="detData" />
+    <result column="det_email" jdbcType="VARCHAR" property="detEmail" />
+    <result column="det_phone" jdbcType="VARCHAR" property="detPhone" />
+    <result column="det_nationality" jdbcType="VARCHAR" property="detNationality" />
+    <result column="det_start" jdbcType="VARCHAR" property="detStart" />
+    <result column="det_end" jdbcType="VARCHAR" property="detEnd" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    det_id, user_id, det_name, det_type, det_sex, det_data, det_email, det_phone, det_nationality, 
+    det_start, det_end
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from details
+    where det_id = #{detId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from details
+    where det_id = #{detId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.Details">
+    insert into details (det_id, user_id, det_name, 
+      det_type, det_sex, det_data, 
+      det_email, det_phone, det_nationality, 
+      det_start, det_end)
+    values (#{detId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{detName,jdbcType=VARCHAR}, 
+      #{detType,jdbcType=VARCHAR}, #{detSex,jdbcType=VARCHAR}, #{detData,jdbcType=VARCHAR},
+      #{detEmail,jdbcType=VARCHAR}, #{detPhone,jdbcType=VARCHAR}, #{detNationality,jdbcType=VARCHAR}, 
+      #{detStart,jdbcType=VARCHAR}, #{detEnd,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Details">
+    insert into details
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="detId != null">
+        det_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="detName != null">
+        det_name,
+      </if>
+      <if test="detType != null">
+        det_type,
+      </if>
+      <if test="detSex != null">
+        det_sex,
+      </if>
+      <if test="detData != null">
+        det_data,
+      </if>
+      <if test="detEmail != null">
+        det_email,
+      </if>
+      <if test="detPhone != null">
+        det_phone,
+      </if>
+      <if test="detNationality != null">
+        det_nationality,
+      </if>
+      <if test="detStart != null">
+        det_start,
+      </if>
+      <if test="detEnd != null">
+        det_end,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="detId != null">
+        #{detId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="detName != null">
+        #{detName,jdbcType=VARCHAR},
+      </if>
+      <if test="detType != null">
+        #{detType,jdbcType=VARCHAR},
+      </if>
+      <if test="detSex != null">
+        #{detSex,jdbcType=VARCHAR},
+      </if>
+      <if test="detData != null">
+        #{detData,jdbcType=VARCHAR},
+      </if>
+      <if test="detEmail != null">
+        #{detEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="detPhone != null">
+        #{detPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="detNationality != null">
+        #{detNationality,jdbcType=VARCHAR},
+      </if>
+      <if test="detStart != null">
+        #{detStart,jdbcType=VARCHAR},
+      </if>
+      <if test="detEnd != null">
+        #{detEnd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Details">
+    update details
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="detName != null">
+        det_name = #{detName,jdbcType=VARCHAR},
+      </if>
+      <if test="detType != null">
+        det_type = #{detType,jdbcType=VARCHAR},
+      </if>
+      <if test="detSex != null">
+        det_sex = #{detSex,jdbcType=VARCHAR},
+      </if>
+      <if test="detData != null">
+        det_data = #{detData,jdbcType=VARCHAR},
+      </if>
+      <if test="detEmail != null">
+        det_email = #{detEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="detPhone != null">
+        det_phone = #{detPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="detNationality != null">
+        det_nationality = #{detNationality,jdbcType=VARCHAR},
+      </if>
+      <if test="detStart != null">
+        det_start = #{detStart,jdbcType=VARCHAR},
+      </if>
+      <if test="detEnd != null">
+        det_end = #{detEnd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where det_id = #{detId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Details">
+    update details
+    set user_id = #{userId,jdbcType=INTEGER},
+      det_name = #{detName,jdbcType=VARCHAR},
+      det_type = #{detType,jdbcType=VARCHAR},
+      det_sex = #{detSex,jdbcType=VARCHAR},
+      det_data = #{detData,jdbcType=VARCHAR},
+      det_email = #{detEmail,jdbcType=VARCHAR},
+      det_phone = #{detPhone,jdbcType=VARCHAR},
+      det_nationality = #{detNationality,jdbcType=VARCHAR},
+      det_start = #{detStart,jdbcType=VARCHAR},
+      det_end = #{detEnd,jdbcType=VARCHAR}
+    where det_id = #{detId,jdbcType=INTEGER}
+  </update>
+  <select id="getAllDetails" resultType="Details">
+    select * from details
+  </select>
+  <select id="selectDetailsByCondition" resultType="Details" parameterType="Details">
+    select  <include refid="Base_Column_List" /> from details
+    <where>
+      <if test="detName!=null and detName!=''">
+        and det_name like concat(concat('%',#{detName}),'%')
+      </if>
+      <if test="detEmail!=null and detEmail!=''">
+        and det_email like concat(concat('%',#{detEmail}),'%')
+      </if>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.AcademyMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.Academy">
+    <id column="academy_id" jdbcType="INTEGER" property="academyId" />
+    <result column="academy_name" jdbcType="VARCHAR" property="academyName" />
+    <result column="academy_desc" jdbcType="VARCHAR" property="academyDesc" />
+    <result column="column_4" jdbcType="INTEGER" property="column4" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    academy_id, academy_name, academy_desc, column_4
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from second_level_academy
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from second_level_academy
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.Academy">
+    insert into second_level_academy (academy_id, academy_name, academy_desc, 
+      column_4)
+    values (#{academyId,jdbcType=INTEGER}, #{academyName,jdbcType=VARCHAR}, #{academyDesc,jdbcType=VARCHAR}, 
+      #{column4,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.Academy">
+    insert into second_level_academy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="academyId != null">
+        academy_id,
+      </if>
+      <if test="academyName != null">
+        academy_name,
+      </if>
+      <if test="academyDesc != null">
+        academy_desc,
+      </if>
+      <if test="column4 != null">
+        column_4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="academyId != null">
+        #{academyId,jdbcType=INTEGER},
+      </if>
+      <if test="academyName != null">
+        #{academyName,jdbcType=VARCHAR},
+      </if>
+      <if test="academyDesc != null">
+        #{academyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="column4 != null">
+        #{column4,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.Academy">
+    update second_level_academy
+    <set>
+      <if test="academyName != null">
+        academy_name = #{academyName,jdbcType=VARCHAR},
+      </if>
+      <if test="academyDesc != null">
+        academy_desc = #{academyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="column4 != null">
+        column_4 = #{column4,jdbcType=INTEGER},
+      </if>
+    </set>
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.Academy">
+    update second_level_academy
+    set academy_name = #{academyName,jdbcType=VARCHAR},
+      academy_desc = #{academyDesc,jdbcType=VARCHAR},
+      column_4 = #{column4,jdbcType=INTEGER}
+    where academy_id = #{academyId,jdbcType=INTEGER}
+  </update>
+
+  <select id="findAllAcademy" resultType="Academy">
+    select * from second_level_academy
+  </select>
+</mapper>

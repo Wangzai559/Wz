@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.UserMapper">
+
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="user_pass" jdbcType="VARCHAR" property="userPass" />
+    <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, user_pass, user_email
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.User">
+    insert into user (user_name, user_pass, user_email)
+    values (#{userName,jdbcType=VARCHAR}, #{userPass,jdbcType=VARCHAR},#{userEmail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null and userId !=''">
+        user_id,
+      </if>
+      <if test="userName != null and userName !=''">
+        user_name,
+      </if>
+      <if test="userPass != null and userPass !=''">
+        user_pass,
+      </if>
+      <if test="userEmail != null and userEmail !=''">
+        user_email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null and userId !=''">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null and userName !=''">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPass != null and userPass !=''">
+        #{userPass,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null and userEmail !=''">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.lanqiao.bean.User">
+    update user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPass != null">
+        user_pass = #{userPass,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.lanqiao.bean.User">
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_pass = #{userPass,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+   <select id="LoginByNameandPass" resultType="User">
+     select * from  user  where user_name=#{userName} and user_pass=#{userPass}
+   </select>
+
+  <select id="CheckName" resultType="User" parameterType="User">
+    select *
+    from user
+    where user_name=#{userName}
+  </select>
+
+</mapper>

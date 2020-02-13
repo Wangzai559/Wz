@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.lanqiao.dao.StuGradeMapper">
+  <resultMap id="BaseResultMap" type="org.lanqiao.bean.StuGrade">
+    <id column="judge_res_id" jdbcType="INTEGER" property="judgeResId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from stu_grade
+    where judge_res_id = #{judgeResId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.lanqiao.bean.StuGrade">
+    insert into stu_grade (judge_res_id)
+    values (#{judgeResId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.lanqiao.bean.StuGrade">
+    insert into stu_grade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="judgeResId != null">
+        judge_res_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="judgeResId != null">
+        #{judgeResId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectAllGrade" resultType="StuGrade">
+    select * from  stu_grade
+  </select>
+</mapper>
